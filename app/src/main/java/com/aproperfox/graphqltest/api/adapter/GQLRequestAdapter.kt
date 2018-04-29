@@ -16,28 +16,21 @@ class GQLRequestAdapter(private val mutation: String, private val payload: Strin
 
   override fun read(obj: JsonReader): String {
     val builder = StringBuilder()
-    var count = 0
     while (obj.hasNext()) {
       val read = obj.peek()
       when (read) {
         JsonToken.BEGIN_ARRAY -> {
-          count++
           builder.append("[")
           obj.beginArray()
         }
         JsonToken.END_ARRAY -> {
-          count--
           builder.append("]")
           obj.endArray()
         }
         JsonToken.BEGIN_OBJECT -> {
-          count++
-          builder.append("{")
           obj.beginObject()
         }
         JsonToken.END_OBJECT -> {
-          count--
-          builder.append("}")
           obj.endObject()
         }
         JsonToken.NAME -> {
